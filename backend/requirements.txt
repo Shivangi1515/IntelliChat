@@ -1,0 +1,6 @@
+express
+nodemon
+cors
+openai
+dotenv
+mongoose
