@@ -73,14 +73,6 @@ function App() {
     loading, setLoading
   }; 
 
-  if (!token) {
-    return (
-      <MyContext.Provider value={providerValues}>
-        <Auth />
-      </MyContext.Provider>
-    );
-  }
-
   return (
     <div className='app'>
       <MyContext.Provider value={providerValues}>
@@ -88,7 +80,7 @@ function App() {
         <ChatWindow />
       </MyContext.Provider>
     </div>
-  )
+  );
 }
 
 export default App;
