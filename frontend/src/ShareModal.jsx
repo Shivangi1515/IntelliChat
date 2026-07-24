@@ -72,60 +72,44 @@ function ShareModal({ onClose, threadId, token }) {
                     ) : (
                         <>
                             {shareToken && (
-                                <div className="share-link-section">
-                                    <div className="share-url-container">
-                                        <input
-                                            type="text"
-                                            readOnly
-                                            value={getShareUrl()}
-                                            className="share-url-input"
-                                            onClick={(e) => e.target.select()}
-                                        />
-                                        <button className="btn-copy-url" onClick={handleCopyUrl} title="Copy Link">
-                                            <i className="fa-solid fa-copy"></i> Copy
-                                        </button>
-                                    </div>
-
-                                    <div className="social-share-section">
-                                        <p className="social-share-title">Share directly to social media:</p>
-                                        <div className="social-share-row">
-                                            <a 
-                                                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Check out my conversation on IntelliChat: ")}&url=${encodeURIComponent(getShareUrl())}`} 
-                                                target="_blank" 
-                                                rel="noreferrer" 
-                                                className="btn-social twitter"
-                                                title="Share on X"
-                                            >
-                                                <i className="fa-brands fa-x-twitter"></i>
-                                            </a>
-                                            <a 
-                                                href={`https://api.whatsapp.com/send?text=${encodeURIComponent("Check out my conversation on IntelliChat: " + getShareUrl())}`} 
-                                                target="_blank" 
-                                                rel="noreferrer" 
-                                                className="btn-social whatsapp"
-                                                title="Share on WhatsApp"
-                                            >
-                                                <i className="fa-brands fa-whatsapp"></i>
-                                            </a>
-                                            <a 
-                                                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}`} 
-                                                target="_blank" 
-                                                rel="noreferrer" 
-                                                className="btn-social facebook"
-                                                title="Share on Facebook"
-                                            >
-                                                <i className="fa-brands fa-facebook-f"></i>
-                                            </a>
-                                            <a 
-                                                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(getShareUrl())}`} 
-                                                target="_blank" 
-                                                rel="noreferrer" 
-                                                className="btn-social linkedin"
-                                                title="Share on LinkedIn"
-                                            >
-                                                <i className="fa-brands fa-linkedin-in"></i>
-                                            </a>
-                                        </div>
+                                <div className="share-link-section" style={{ border: "none", background: "transparent", padding: 0 }}>
+                                    <div className="social-share-row" style={{ justifyContent: "center", padding: "1rem 0" }}>
+                                        <a 
+                                            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Check out my conversation on IntelliChat: ")}&url=${encodeURIComponent(getShareUrl())}`} 
+                                            target="_blank" 
+                                            rel="noreferrer" 
+                                            className="btn-social twitter"
+                                            title="Share on X"
+                                        >
+                                            <i className="fa-brands fa-x-twitter"></i>
+                                        </a>
+                                        <a 
+                                            href={`https://api.whatsapp.com/send?text=${encodeURIComponent("Check out my conversation on IntelliChat: " + getShareUrl())}`} 
+                                            target="_blank" 
+                                            rel="noreferrer" 
+                                            className="btn-social whatsapp"
+                                            title="Share on WhatsApp"
+                                        >
+                                            <i className="fa-brands fa-whatsapp"></i>
+                                        </a>
+                                        <a 
+                                            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}`} 
+                                            target="_blank" 
+                                            rel="noreferrer" 
+                                            className="btn-social facebook"
+                                            title="Share on Facebook"
+                                        >
+                                            <i className="fa-brands fa-facebook-f"></i>
+                                        </a>
+                                        <a 
+                                            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(getShareUrl())}`} 
+                                            target="_blank" 
+                                            rel="noreferrer" 
+                                            className="btn-social linkedin"
+                                            title="Share on LinkedIn"
+                                        >
+                                            <i className="fa-brands fa-linkedin-in"></i>
+                                        </a>
                                     </div>
                                 </div>
                             )}
