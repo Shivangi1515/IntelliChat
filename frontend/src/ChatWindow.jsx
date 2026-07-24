@@ -15,7 +15,9 @@ function ChatWindow() {
         setPrevChats,
         setNewChat,
         setAllThreads,
-        loading, setLoading
+        loading, setLoading,
+        systemPrompt,
+        temperature
     } = useContext(MyContext);
 
     const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +43,9 @@ function ChatWindow() {
             },
             body: JSON.stringify({
                 message: messageText,
-                threadId: currThreadId
+                threadId: currThreadId,
+                systemPrompt,
+                temperature
             })
         };
 
