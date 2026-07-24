@@ -4,3 +4,8 @@ cors
 openai
 dotenv
 mongoose
+jsonwebtoken
+bcryptjs
+passport
+passport-google-oauth20
+
