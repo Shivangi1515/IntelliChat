@@ -20,7 +20,8 @@ function ChatWindow() {
         systemPrompt,
         temperature,
         isStreaming, setIsStreaming,
-        toastMessage, setToastMessage
+        toastMessage, setToastMessage,
+        sidebarCollapsed, setSidebarCollapsed
     } = useContext(MyContext);
 
     const [isOpen, setIsOpen] = useState(false);
@@ -270,6 +271,15 @@ function ChatWindow() {
             )}
 
             <div className="navbar">
+                {sidebarCollapsed && (
+                    <button
+                        className="btn-sidebar-expand"
+                        onClick={() => setSidebarCollapsed(false)}
+                        title="Expand sidebar"
+                    >
+                        <i className="fa-solid fa-bars"></i>
+                    </button>
+                )}
                 <span className="navbar-title">IntelliChat <i className="fa-solid fa-chevron-down"></i></span>
                 <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                     {token && prevChats.length > 0 && (
