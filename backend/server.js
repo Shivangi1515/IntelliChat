@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import chatRoutes from "./routes/chat.js";
 import authRoutes from "./routes/auth.js";
+import memoryRoutes from "./routes/memory.js";
 import passport from "./utils/passport.js";
 import path from "path";
 import fs from "fs";
@@ -30,6 +31,7 @@ app.use(passport.initialize());
 app.use("/uploads", express.static(uploadsPath));
 
 app.use("/api/auth", authRoutes);
+app.use("/api/memory", memoryRoutes);
 app.use("/api", chatRoutes);
 
 const connectDB = async () => {
