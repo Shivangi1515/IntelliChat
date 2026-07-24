@@ -4,13 +4,17 @@ const JWT_SECRET = process.env.JWT_SECRET || "intellichat_jwt_secret_key_123";
 
 const authMiddleware = (req, res, next) => {
     const authHeader = req.header("Authorization");
+    const guestUser = { id: "000000000000000000000000", email: "guest@intellichat.com", name: "Guest User" };
+
     if (!authHeader) {
-        return res.status(401).json({ error: "Access denied. No token provided." });
+        req.user = guestUser;
+        return next();
     }
 
     const token = authHeader.replace("Bearer ", "");
-    if (!token) {
-        return res.status(401).json({ error: "Access denied. Invalid token format." });
+    if (!token || token === "null" || token === "undefined") {
+        req.user = guestUser;
+        return next();
     }
 
     try {
@@ -18,7 +22,8 @@ const authMiddleware = (req, res, next) => {
         req.user = decoded; // Contains id, email, name
         next();
     } catch (err) {
-        res.status(401).json({ error: "Invalid authentication token." });
+        req.user = guestUser;
+        next();
     }
 };
 
