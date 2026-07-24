@@ -78,6 +78,7 @@ function App() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [highlightedMessageIndex, setHighlightedMessageIndex] = useState(null);
+  const [toastMessage, setToastMessage] = useState("");
 
   const providerValues = {
     token, setToken,
@@ -93,7 +94,8 @@ function App() {
     temperature, setTemperature,
     isStreaming, setIsStreaming,
     searchQuery, setSearchQuery,
-    highlightedMessageIndex, setHighlightedMessageIndex
+    highlightedMessageIndex, setHighlightedMessageIndex,
+    toastMessage, setToastMessage
   }; 
 
   if (shareToken) {
