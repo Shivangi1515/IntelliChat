@@ -1,19 +1,49 @@
 import mongoose from "mongoose";
 
-const MessageSchema=new mongoose.Schema({
-    role:{
-        type:String,
-        enum:["user","assistant"],
-        required:true,
+const AttachmentSchema = new mongoose.Schema({
+    fileType: {
+        type: String,
+        enum: ["image", "pdf"],
+        required: true
     },
-    content:{
-        type:String,
-        required:true,
+    fileName: {
+        type: String,
+        required: true
     },
-    timestamp:{
-        type:Date,
-        default:Date.now
+    fileSize: {
+        type: Number,
+        required: true
+    },
+    fileUrl: {
+        type: String,
+        required: true
     }
+});
+
+const MessageSchema = new mongoose.Schema({
+    role: {
+        type: String,
+        enum: ["user", "assistant"],
+        required: true,
+    },
+    content: {
+        type: String,
+        required: true,
+    },
+    timestamp: {
+        type: Date,
+        default: Date.now
+    },
+    isEdited: {
+        type: Boolean,
+        default: false
+    },
+    feedback: {
+        type: String,
+        enum: ["like", "dislike", null],
+        default: null
+    },
+    attachments: [AttachmentSchema]
 });
 
 const ThreadSchema = new mongoose.Schema({
@@ -22,26 +52,40 @@ const ThreadSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
-    threadId:{
-        type:String,
-        required:true,
-        unique:true
+    threadId: {
+        type: String,
+        required: true,
+        unique: true
     },
-    title:{
-        type:String,
-        default:"New Chat",
-
+    title: {
+        type: String,
+        default: "New Chat",
     },
-    messages:[MessageSchema],
-    createdAt:{
-        type:Date,
-        default:Date.now
+    messages: [MessageSchema],
+    isArchived: {
+        type: Boolean,
+        default: false
     },
-    updatedAt:{
-        type:Date,
-        default:Date.now
+    isPinned: {
+        type: Boolean,
+        default: false
+    },
+    isShared: {
+        type: Boolean,
+        default: false
+    },
+    shareToken: {
+        type: String,
+        default: null
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now
     }
-
 });
 
-export default mongoose.model("Thread",ThreadSchema);
+export default mongoose.model("Thread", ThreadSchema);
