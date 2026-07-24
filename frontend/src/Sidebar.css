@@ -9,15 +9,19 @@
   justify-content: space-between;
   padding: 1.25rem 1rem;
   z-index: 10;
-  transition: width var(--transition-normal), min-width var(--transition-normal), padding var(--transition-normal);
+  transition: width 0.25s ease, min-width 0.25s ease, padding 0.25s ease,
+              border-color 0.25s ease, opacity 0.2s ease;
   overflow: hidden;
 }
 
-/* Collapsed state */
+/* Fully collapsed — zero width, invisible */
 .sidebar--collapsed {
-  width: 64px;
-  min-width: 64px;
-  padding: 1.25rem 0.5rem;
+  width: 0;
+  min-width: 0;
+  padding: 0;
+  border-right-color: transparent;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .sidebar-header {
@@ -27,7 +31,7 @@
   margin-bottom: 1.25rem;
 }
 
-/* Sidebar toggle button */
+/* Sidebar toggle button (inside sidebar, visible when expanded) */
 .btn-sidebar-toggle {
   background: transparent;
   border: 1px solid var(--border-color);
@@ -48,29 +52,6 @@
   color: var(--text-primary);
   background: var(--bg-card-hover);
   border-color: var(--accent-primary);
-}
-
-/* When collapsed, center the toggle button */
-.sidebar--collapsed .sidebar-header {
-  justify-content: center;
-}
-
-/* Brand text fade out when collapsed */
-.brand--hidden {
-  display: none;
-}
-
-/* Icon-only new chat button (collapsed) */
-.btn-new-chat--icon {
-  width: 100%;
-  padding: 0.75rem 0;
-  justify-content: center;
-}
-
-/* Hide history and footer when collapsed */
-.history-container--hidden,
-.sidebar-footer--hidden {
-  display: none;
 }
 
 .brand {
