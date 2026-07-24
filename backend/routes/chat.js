@@ -46,8 +46,7 @@ router.get("/thread/:threadId",async(req,res)=>{
     try{
         const thread = await Thread.findOne({threadId});
         if(!thread){
-            res.status(404).json({error:"Thread not found"});
-
+            return res.status(404).json({error:"Thread not found"});
         }
         res.json(thread.messages);
 
@@ -64,7 +63,7 @@ router.delete("/thread/:threadId",async(req,res)=>{
         const deletedThread=await Thread.findOneAndDelete({threadId});
 
         if(!deletedThread){
-            res.status(404).json({error:"Thread not found"});
+            return res.status(404).json({error:"Thread not found"});
         }
 
         res.status(200).json({success:"Thread successfully deleted"});
@@ -82,7 +81,7 @@ router.post("/chat", async(req, res) => {
     const {threadId, message} = req.body;
 
     if(!threadId || !message) {
-        res.status(400).json({error: "missing required fields"});
+        return res.status(400).json({error: "missing required fields"});
     }
 
     try {
@@ -92,14 +91,15 @@ router.post("/chat", async(req, res) => {
             //create a new thread in Db
             thread = new Thread({
                 threadId,
-                title: message,
+                title: message.substring(0, 40) + (message.length > 40 ? "..." : ""),
                 messages: [{role: "user", content: message}]
             });
         } else {
             thread.messages.push({role: "user", content: message});
         }
 
-        const assistantReply = await getGroqAPIResponse(message);
+        // Pass the updated messages history to the Groq API helper
+        const assistantReply = await getGroqAPIResponse(thread.messages);
 
         thread.messages.push({role: "assistant", content: assistantReply});
         thread.updatedAt = new Date();
