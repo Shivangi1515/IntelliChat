@@ -19,7 +19,8 @@ function ChatWindow() {
         loading, setLoading,
         systemPrompt,
         temperature,
-        isStreaming, setIsStreaming
+        isStreaming, setIsStreaming,
+        toastMessage, setToastMessage
     } = useContext(MyContext);
 
     const [isOpen, setIsOpen] = useState(false);
@@ -75,6 +76,13 @@ function ChatWindow() {
                 // Append assistant reply immediately
                 setPrevChats(prev => [...prev, { role: "assistant", content: res.reply }]);
                 setReply(res.reply);
+
+                // Trigger memory updates toast notifications
+                if (res.memoryEvents && res.memoryEvents.length > 0) {
+                    const messages = res.memoryEvents.map(e => e.reason).join(" ");
+                    setToastMessage(messages);
+                    setTimeout(() => setToastMessage(""), 4000);
+                }
 
                 // Update thread list
                 const threadResponse = await fetch("http://localhost:8000/api/thread", {
