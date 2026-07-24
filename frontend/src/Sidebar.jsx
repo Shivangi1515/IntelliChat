@@ -11,17 +11,15 @@ function Sidebar() {
             const response = await fetch("http://localhost:8000/api/thread");
             const res = await response.json();
             const filteredData = res.map(thread => ({ threadId: thread.threadId, title: thread.title }));
-            //console.log(filteredData);
             setAllThreads(filteredData);
         } catch (err) {
-            console.log(err);
+            console.error("Failed to load chat history:", err);
         }
     };
 
     useEffect(() => {
         getAllThreads();
-    }, [currThreadId])
-
+    }, [currThreadId]);
 
     const createNewChat = () => {
         setNewChat(true);
@@ -29,73 +27,77 @@ function Sidebar() {
         setReply(null);
         setCurrThreadId(uuidv1());
         setPrevChats([]);
-    }
+    };
 
     const changeThread = async (newThreadId) => {
         setCurrThreadId(newThreadId);
-
         try {
             const response = await fetch(`http://localhost:8000/api/thread/${newThreadId}`);
             const res = await response.json();
-            console.log(res);
             setPrevChats(res);
             setNewChat(false);
             setReply(null);
         } catch (err) {
-            console.log(err);
+            console.error("Error changing thread:", err);
         }
-    }
+    };
 
     const deleteThread = async (threadId) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/thread/${threadId}`, { method: "DELETE" });
-            const res = await response.json();
-            console.log(res);
-
-            //updated threads re-render
+            await fetch(`http://localhost:8000/api/thread/${threadId}`, { method: "DELETE" });
             setAllThreads(prev => prev.filter(thread => thread.threadId !== threadId));
-
             if (threadId === currThreadId) {
                 createNewChat();
             }
-
         } catch (err) {
-            console.log(err);
+            console.error("Error deleting thread:", err);
         }
-    }
+    };
 
     return (
         <section className="sidebar">
-            <button onClick={createNewChat}>
-                <img src="src/assets/IntelliChatLogo.png" alt="gpt logo" className="logo"></img>
-                <span><i className="fa-solid fa-pen-to-square"></i></span>
-            </button>
+            <div>
+                <div className="sidebar-header">
+                    <div className="brand">
+                        <img src="src/assets/IntelliChatLogo.png" alt="logo" className="logo" />
+                        <span>IntelliChat</span>
+                    </div>
+                </div>
+                
+                <button className="btn-new-chat" onClick={createNewChat}>
+                    <i className="fa-solid fa-plus"></i> New Chat
+                </button>
+            </div>
 
+            <div className="history-container">
+                <div className="history-title">Recent Chats</div>
+                <ul className="history">
+                    {
+                        allThreads?.map((thread, idx) => (
+                            <li key={thread.threadId || idx}
+                                onClick={() => changeThread(thread.threadId)}
+                                className={thread.threadId === currThreadId ? "highlighted" : ""}
+                            >
+                                <span className="thread-title">{thread.title}</span>
+                                <i className="fa-solid fa-trash btn-delete"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        deleteThread(thread.threadId);
+                                    }}
+                                ></i>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
 
-            <ul className="history">
-                {
-                    allThreads?.map((thread, idx) => (
-                        <li key={idx}
-                            onClick={(e) => changeThread(thread.threadId)}
-                            className={thread.threadId === currThreadId ? "highlighted" : " "}
-                        >
-                            {thread.title}
-                            <i className="fa-solid fa-trash"
-                                onClick={(e) => {
-                                    e.stopPropagation(); //stop event bubbling
-                                    deleteThread(thread.threadId);
-                                }}
-                            ></i>
-                        </li>
-                    ))
-                }
-            </ul>
-
-            <div className="sign">
-                <p>By IntelliChat &hearts;</p>
+            <div className="sidebar-footer">
+                <div className="sign">
+                    <p>Made with <span>&hearts;</span> by IntelliChat</p>
+                </div>
             </div>
         </section>
-    )
+    );
 }
 
 export default Sidebar;
