@@ -337,11 +337,23 @@ router.post("/chat", async (req, res) => {
         let thread = await Thread.findOne({ threadId, userId: req.user.id });
 
         if (!thread) {
+            // Auto-generate title using Groq
+            let generatedTitle = message.substring(0, 40) + (message.length > 40 ? "..." : "");
+            try {
+                const titlePrompt = `Generate a very short, catchy 3 to 5 words title for a conversation starting with this user message. Respond ONLY with the title. Do not include quote marks, periods, or extra words. User message: "${message}"`;
+                const aiTitle = await getGroqAPIResponse([{ role: "user", content: titlePrompt }], "You are a helpful assistant.", 0.5);
+                if (aiTitle && aiTitle.trim()) {
+                    generatedTitle = aiTitle.trim().replace(/^["'“”‘]/g, "").replace(/["'“”’]$/g, ""); // strip quotes
+                }
+            } catch (titleErr) {
+                console.error("Auto-generated title generation failed, using fallback:", titleErr);
+            }
+
             // Create a new thread in Db
             thread = new Thread({
                 userId: req.user.id,
                 threadId,
-                title: message.substring(0, 40) + (message.length > 40 ? "..." : ""),
+                title: generatedTitle,
                 messages: [{ role: "user", content: message, attachments: attachments || [] }]
             });
         } else {
