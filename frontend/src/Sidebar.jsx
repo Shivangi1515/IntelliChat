@@ -4,14 +4,19 @@ import { MyContext } from "./MyContext.jsx";
 import { v1 as uuidv1 } from "uuid";
 
 function Sidebar() {
-    const { allThreads, setAllThreads, currThreadId, setNewChat, setPrompt, setReply, setCurrThreadId, setPrevChats } = useContext(MyContext);
+    const { token, allThreads, setAllThreads, currThreadId, setNewChat, setPrompt, setReply, setCurrThreadId, setPrevChats } = useContext(MyContext);
 
     const getAllThreads = async () => {
+        if (!token) return;
         try {
-            const response = await fetch("http://localhost:8000/api/thread");
+            const response = await fetch("http://localhost:8000/api/thread", {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             const res = await response.json();
-            const filteredData = res.map(thread => ({ threadId: thread.threadId, title: thread.title }));
-            setAllThreads(filteredData);
+            if (response.ok) {
+                const filteredData = res.map(thread => ({ threadId: thread.threadId, title: thread.title }));
+                setAllThreads(filteredData);
+            }
         } catch (err) {
             console.error("Failed to load chat history:", err);
         }
@@ -19,7 +24,7 @@ function Sidebar() {
 
     useEffect(() => {
         getAllThreads();
-    }, [currThreadId]);
+    }, [currThreadId, token]);
 
     const createNewChat = () => {
         setNewChat(true);
@@ -32,7 +37,9 @@ function Sidebar() {
     const changeThread = async (newThreadId) => {
         setCurrThreadId(newThreadId);
         try {
-            const response = await fetch(`http://localhost:8000/api/thread/${newThreadId}`);
+            const response = await fetch(`http://localhost:8000/api/thread/${newThreadId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             const res = await response.json();
             setPrevChats(res);
             setNewChat(false);
@@ -44,7 +51,10 @@ function Sidebar() {
 
     const deleteThread = async (threadId) => {
         try {
-            await fetch(`http://localhost:8000/api/thread/${threadId}`, { method: "DELETE" });
+            await fetch(`http://localhost:8000/api/thread/${threadId}`, {
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` }
+            });
             setAllThreads(prev => prev.filter(thread => thread.threadId !== threadId));
             if (threadId === currThreadId) {
                 createNewChat();
