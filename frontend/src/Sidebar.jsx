@@ -16,7 +16,9 @@ function Sidebar() {
         setPrevChats,
         searchQuery,
         setSearchQuery,
-        setHighlightedMessageIndex
+        setHighlightedMessageIndex,
+        sidebarCollapsed,
+        setSidebarCollapsed
     } = useContext(MyContext);
 
     const [archivedThreads, setArchivedThreads] = useState([]);
@@ -207,21 +209,35 @@ function Sidebar() {
     const unpinnedThreads = allThreads.filter(t => !t.isPinned);
 
     return (
-        <section className="sidebar">
+        <section className={`sidebar${sidebarCollapsed ? " sidebar--collapsed" : ""}`}>
             <div>
                 <div className="sidebar-header">
-                    <div className="brand">
+                    <div className={`brand${sidebarCollapsed ? " brand--hidden" : ""}`}>
                         <img src="src/assets/IntelliChatLogo.png" alt="logo" className="logo" />
                         <span>IntelliChat</span>
                     </div>
+                    <button
+                        className="btn-sidebar-toggle"
+                        onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+                        title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                    >
+                        <i className={`fa-solid fa-${sidebarCollapsed ? "chevron-right" : "chevron-left"}`}></i>
+                    </button>
                 </div>
-                
-                <button className="btn-new-chat" onClick={createNewChat}>
-                    <i className="fa-solid fa-plus"></i> New Chat
-                </button>
 
-                {/* Search Bar */}
-                {token && (
+                {sidebarCollapsed ? (
+                    /* Icon-only new chat button when collapsed */
+                    <button className="btn-new-chat btn-new-chat--icon" onClick={createNewChat} title="New Chat">
+                        <i className="fa-solid fa-plus"></i>
+                    </button>
+                ) : (
+                    <button className="btn-new-chat" onClick={createNewChat}>
+                        <i className="fa-solid fa-plus"></i> New Chat
+                    </button>
+                )}
+
+                {/* Search Bar — hidden when collapsed */}
+                {token && !sidebarCollapsed && (
                     <div className="search-bar-container">
                         <i className="fa-solid fa-magnifying-glass search-icon"></i>
                         <input
@@ -238,7 +254,7 @@ function Sidebar() {
                 )}
             </div>
 
-            <div className="history-container">
+            <div className={`history-container${sidebarCollapsed ? " history-container--hidden" : ""}`}>
                 {/* Search Mode */}
                 {searchQuery.trim() !== "" ? (
                     <div className="search-results-section">
@@ -407,7 +423,7 @@ function Sidebar() {
                 )}
             </div>
 
-            <div className="sidebar-footer">
+            <div className={`sidebar-footer${sidebarCollapsed ? " sidebar-footer--hidden" : ""}`}>
                 <div className="sign">
                     <p>Made with <span>&hearts;</span> by IntelliChat</p>
                 </div>
