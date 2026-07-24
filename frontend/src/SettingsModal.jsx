@@ -22,6 +22,10 @@ function SettingsModal({ onClose, user }) {
         return localStorage.getItem("intellichat_theme") || "dark";
     });
 
+    const [showConfirmClear, setShowConfirmClear] = useState(false);
+    const [showSuccessClear, setShowSuccessClear] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+
     useEffect(() => {
         document.documentElement.setAttribute("data-theme", theme);
         localStorage.setItem("intellichat_theme", theme);
@@ -43,11 +47,8 @@ function SettingsModal({ onClose, user }) {
         localStorage.setItem("intellichat_temperature", value.toString());
     };
 
-    const handleClearHistory = async () => {
-        if (!window.confirm("Are you sure you want to clear all chat history? This cannot be undone.")) {
-            return;
-        }
-
+    const executeClearHistory = async () => {
+        setIsDeleting(true);
         try {
             const response = await fetch("http://localhost:8000/api/thread", {
                 method: "DELETE",
@@ -61,20 +62,71 @@ function SettingsModal({ onClose, user }) {
                 setReply(null);
                 setNewChat(true);
                 setCurrThreadId(uuidv1());
-                alert("Chat history cleared successfully.");
-                onClose();
+                
+                // Show success screen and close settings after a delay
+                setShowSuccessClear(true);
+                setTimeout(() => {
+                    setShowSuccessClear(false);
+                    setShowConfirmClear(false);
+                    onClose();
+                }, 1500);
             } else {
                 alert("Failed to clear chat history.");
+                setIsDeleting(false);
             }
         } catch (err) {
             console.error("Error clearing chat history:", err);
             alert("Connection error. Could not clear history.");
+            setIsDeleting(false);
         }
     };
 
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "520px" }}>
+                
+                {/* Custom Confirmation Overlay */}
+                {showConfirmClear && !showSuccessClear && (
+                    <div className="confirm-overlay">
+                        <div className="confirm-card">
+                            <i className="fa-solid fa-triangle-exclamation"></i>
+                            <h4>Delete All Chats?</h4>
+                            <p>
+                                Are you sure you want to delete your entire chat history? This action is permanent and cannot be undone.
+                            </p>
+                            <div className="confirm-buttons">
+                                <button 
+                                    className="btn-confirm-cancel" 
+                                    onClick={() => setShowConfirmClear(false)}
+                                    disabled={isDeleting}
+                                >
+                                    Cancel
+                                </button>
+                                <button 
+                                    className="btn-confirm-delete" 
+                                    onClick={executeClearHistory}
+                                    disabled={isDeleting}
+                                >
+                                    {isDeleting ? "Deleting..." : "Yes, Delete All"}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Custom Success Overlay */}
+                {showSuccessClear && (
+                    <div className="success-overlay">
+                        <div className="success-card">
+                            <i className="fa-solid fa-circle-check"></i>
+                            <h4>History Cleared</h4>
+                            <p style={{ color: "var(--text-secondary)", fontSize: "0.85rem" }}>
+                                All threads have been permanently removed.
+                            </p>
+                        </div>
+                    </div>
+                )}
+
                 <div className="modal-header">
                     <h3>Settings</h3>
                     <button className="btn-close" onClick={onClose}>
@@ -171,7 +223,7 @@ function SettingsModal({ onClose, user }) {
                                     <h5>Clear All Chats</h5>
                                     <p>Permanently delete all threads in your account</p>
                                 </div>
-                                <button className="btn-danger" onClick={handleClearHistory}>
+                                <button className="btn-danger" onClick={() => setShowConfirmClear(true)}>
                                     <i className="fa-solid fa-trash-can"></i> Clear History
                                 </button>
                             </div>
