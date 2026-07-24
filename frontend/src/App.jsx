@@ -79,6 +79,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [highlightedMessageIndex, setHighlightedMessageIndex] = useState(null);
   const [toastMessage, setToastMessage] = useState("");
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const providerValues = {
     token, setToken,
@@ -95,7 +96,8 @@ function App() {
     isStreaming, setIsStreaming,
     searchQuery, setSearchQuery,
     highlightedMessageIndex, setHighlightedMessageIndex,
-    toastMessage, setToastMessage
+    toastMessage, setToastMessage,
+    sidebarCollapsed, setSidebarCollapsed
   }; 
 
   if (shareToken) {
@@ -103,7 +105,7 @@ function App() {
   }
 
   return (
-    <div className='app'>
+    <div className={`app ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}>
       <MyContext.Provider value={providerValues}>
         <Sidebar />
         <ChatWindow />
