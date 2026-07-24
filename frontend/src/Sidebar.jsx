@@ -212,32 +212,25 @@ function Sidebar() {
         <section className={`sidebar${sidebarCollapsed ? " sidebar--collapsed" : ""}`}>
             <div>
                 <div className="sidebar-header">
-                    <div className={`brand${sidebarCollapsed ? " brand--hidden" : ""}`}>
+                    <div className="brand">
                         <img src="src/assets/IntelliChatLogo.png" alt="logo" className="logo" />
                         <span>IntelliChat</span>
                     </div>
                     <button
                         className="btn-sidebar-toggle"
-                        onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-                        title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                        onClick={() => setSidebarCollapsed(true)}
+                        title="Collapse sidebar"
                     >
-                        <i className={`fa-solid fa-${sidebarCollapsed ? "chevron-right" : "chevron-left"}`}></i>
+                        <i className="fa-solid fa-chevron-left"></i>
                     </button>
                 </div>
 
-                {sidebarCollapsed ? (
-                    /* Icon-only new chat button when collapsed */
-                    <button className="btn-new-chat btn-new-chat--icon" onClick={createNewChat} title="New Chat">
-                        <i className="fa-solid fa-plus"></i>
-                    </button>
-                ) : (
-                    <button className="btn-new-chat" onClick={createNewChat}>
-                        <i className="fa-solid fa-plus"></i> New Chat
-                    </button>
-                )}
+                <button className="btn-new-chat" onClick={createNewChat}>
+                    <i className="fa-solid fa-plus"></i> New Chat
+                </button>
 
-                {/* Search Bar — hidden when collapsed */}
-                {token && !sidebarCollapsed && (
+                {/* Search Bar */}
+                {token && (
                     <div className="search-bar-container">
                         <i className="fa-solid fa-magnifying-glass search-icon"></i>
                         <input
@@ -254,7 +247,7 @@ function Sidebar() {
                 )}
             </div>
 
-            <div className={`history-container${sidebarCollapsed ? " history-container--hidden" : ""}`}>
+            <div className="history-container">
                 {/* Search Mode */}
                 {searchQuery.trim() !== "" ? (
                     <div className="search-results-section">
@@ -423,7 +416,7 @@ function Sidebar() {
                 )}
             </div>
 
-            <div className={`sidebar-footer${sidebarCollapsed ? " sidebar-footer--hidden" : ""}`}>
+            <div className="sidebar-footer">
                 <div className="sign">
                     <p>Made with <span>&hearts;</span> by IntelliChat</p>
                 </div>
