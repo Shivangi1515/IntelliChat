@@ -33,6 +33,12 @@
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-full: 9999px;
+
+  /* Theme-specific Component Backgrounds */
+  --bg-navbar: rgba(11, 11, 15, 0.5);
+  --bg-dropdown: rgba(18, 18, 24, 0.85);
+  --brand-gradient: linear-gradient(135deg, #fff 30%, var(--text-secondary) 100%);
+  --welcome-gradient: linear-gradient(135deg, #fff 40%, var(--accent-primary) 100%);
 }
 
 /* Light Theme Overrides */
@@ -51,6 +57,11 @@ html[data-theme="light"] {
   --text-muted: #9ca3af;
   
   --accent-glow: rgba(99, 102, 241, 0.08);
+
+  --bg-navbar: rgba(249, 250, 251, 0.8);
+  --bg-dropdown: rgba(243, 244, 246, 0.95);
+  --brand-gradient: linear-gradient(135deg, #111827 30%, var(--text-secondary) 100%);
+  --welcome-gradient: linear-gradient(135deg, #111827 40%, var(--accent-primary) 100%);
 }
 
 * {
