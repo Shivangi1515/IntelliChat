@@ -271,16 +271,16 @@ function ChatWindow() {
             )}
 
             <div className="navbar">
-                {sidebarCollapsed && (
+                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
                     <button
                         className="btn-sidebar-expand"
-                        onClick={() => setSidebarCollapsed(false)}
-                        title="Expand sidebar"
+                        onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+                        title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
                     >
                         <i className="fa-solid fa-bars"></i>
                     </button>
-                )}
-                <span className="navbar-title">IntelliChat <i className="fa-solid fa-chevron-down"></i></span>
+                    <span className="navbar-title">IntelliChat <i className="fa-solid fa-chevron-down"></i></span>
+                </div>
                 <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                     {token && prevChats.length > 0 && (
                         <button 
