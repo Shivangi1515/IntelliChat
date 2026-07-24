@@ -4,9 +4,17 @@ import ChatWindow from "./ChatWindow.jsx";
 import Auth from "./Auth.jsx";
 import { MyContext } from "./MyContext.jsx";
 import { useState, useEffect } from 'react';
+import SharePage from "./SharePage.jsx";
 import { v1 as uuidv1 } from "uuid";
 
 function App() {
+  const [shareToken, setShareToken] = useState(() => {
+    if (window.location.pathname.startsWith("/share/")) {
+      return window.location.pathname.split("/share/")[1];
+    }
+    return null;
+  });
+
   const [token, setToken] = useState(() => localStorage.getItem("intellichat_token"));
   const [user, setUser] = useState(null);
   const [prompt, setPrompt] = useState("");
@@ -67,6 +75,10 @@ function App() {
     return saved ? parseFloat(saved) : 0.7;
   });
 
+  const [isStreaming, setIsStreaming] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [highlightedMessageIndex, setHighlightedMessageIndex] = useState(null);
+
   const providerValues = {
     token, setToken,
     user, setUser,
@@ -78,8 +90,15 @@ function App() {
     allThreads, setAllThreads,
     loading, setLoading,
     systemPrompt, setSystemPrompt,
-    temperature, setTemperature
+    temperature, setTemperature,
+    isStreaming, setIsStreaming,
+    searchQuery, setSearchQuery,
+    highlightedMessageIndex, setHighlightedMessageIndex
   }; 
+
+  if (shareToken) {
+    return <SharePage shareToken={shareToken} />;
+  }
 
   return (
     <div className='app'>
