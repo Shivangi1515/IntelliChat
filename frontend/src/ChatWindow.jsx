@@ -83,6 +83,10 @@ function ChatWindow() {
         window.location.reload();
     };
 
+    const handleGoogleLogin = () => {
+        window.location.href = "http://localhost:8000/api/auth/google";
+    };
+
     const startSpeechRecognition = () => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRecognition) {
@@ -129,15 +133,31 @@ function ChatWindow() {
             {
                 isOpen && 
                 <div className="dropDown">
-                    <div className="dropDownItem" onClick={() => { setIsSettingsOpen(true); setIsOpen(false); }}>
-                        <i className="fa-solid fa-gear"></i> Settings
-                    </div>
-                    <div className="dropDownItem" onClick={() => { setIsUpgradeOpen(true); setIsOpen(false); }}>
-                        <i className="fa-solid fa-cloud-arrow-up"></i> Upgrade plan
-                    </div>
-                    <div className="dropDownItem" onClick={handleLogout}>
-                        <i className="fa-solid fa-arrow-right-from-bracket"></i> Log out
-                    </div>
+                    {token ? (
+                        <>
+                            <div className="dropDownItem" onClick={() => { setIsSettingsOpen(true); setIsOpen(false); }}>
+                                <i className="fa-solid fa-gear"></i> Settings
+                            </div>
+                            <div className="dropDownItem" onClick={() => { setIsUpgradeOpen(true); setIsOpen(false); }}>
+                                <i className="fa-solid fa-cloud-arrow-up"></i> Upgrade plan
+                            </div>
+                            <div className="dropDownItem" onClick={handleLogout}>
+                                <i className="fa-solid fa-arrow-right-from-bracket"></i> Log out
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className="dropDownItem" onClick={handleGoogleLogin} style={{ fontWeight: "600", color: "var(--accent-primary)" }}>
+                                <i className="fa-brands fa-google"></i> Sign in with Google
+                            </div>
+                            <div className="dropDownItem" onClick={() => { setIsSettingsOpen(true); setIsOpen(false); }}>
+                                <i className="fa-solid fa-gear"></i> Settings
+                            </div>
+                            <div className="dropDownItem" onClick={() => { setIsUpgradeOpen(true); setIsOpen(false); }}>
+                                <i className="fa-solid fa-cloud-arrow-up"></i> Upgrade plan
+                            </div>
+                        </>
+                    )}
                 </div>
             }
             
