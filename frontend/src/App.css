@@ -5,3 +5,9 @@
   width: 100vw;
   overflow: hidden;
 }
+
+/* When sidebar is collapsed the chat window fills the freed space */
+.app .chat-window,
+.app > :last-child {
+  transition: flex var(--transition-normal);
+}
