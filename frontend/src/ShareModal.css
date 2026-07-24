@@ -140,3 +140,80 @@
   box-shadow: var(--shadow-lg);
   z-index: 100;
 }
+
+/* Social Media Share Section */
+.social-share-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+}
+
+.social-share-title {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.social-share-row {
+  display: flex;
+  gap: 0.85rem;
+  align-items: center;
+}
+
+.btn-social {
+  height: 38px;
+  width: 38px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white !important;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.btn-social:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-social.twitter {
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-social.twitter:hover {
+  background: #000000;
+}
+
+.btn-social.whatsapp {
+  background: #25D366;
+}
+
+.btn-social.whatsapp:hover {
+  background: #20ba5a;
+}
+
+.btn-social.facebook {
+  background: #1877F2;
+}
+
+.btn-social.facebook:hover {
+  background: #166fe5;
+}
+
+.btn-social.linkedin {
+  background: #0A66C2;
+}
+
+.btn-social.linkedin:hover {
+  background: #0958a8;
+}
+

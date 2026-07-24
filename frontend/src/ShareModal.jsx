@@ -147,6 +147,48 @@ function ShareModal({ onClose, threadId, token }) {
                                         </button>
                                     </div>
 
+                                    <div className="social-share-section">
+                                        <p className="social-share-title">Or share directly to social media:</p>
+                                        <div className="social-share-row">
+                                            <a 
+                                                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("Check out my conversation on IntelliChat: ")}&url=${encodeURIComponent(getShareUrl())}`} 
+                                                target="_blank" 
+                                                rel="noreferrer" 
+                                                className="btn-social twitter"
+                                                title="Share on X"
+                                            >
+                                                <i className="fa-brands fa-x-twitter"></i>
+                                            </a>
+                                            <a 
+                                                href={`https://api.whatsapp.com/send?text=${encodeURIComponent("Check out my conversation on IntelliChat: " + getShareUrl())}`} 
+                                                target="_blank" 
+                                                rel="noreferrer" 
+                                                className="btn-social whatsapp"
+                                                title="Share on WhatsApp"
+                                            >
+                                                <i className="fa-brands fa-whatsapp"></i>
+                                            </a>
+                                            <a 
+                                                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}`} 
+                                                target="_blank" 
+                                                rel="noreferrer" 
+                                                className="btn-social facebook"
+                                                title="Share on Facebook"
+                                            >
+                                                <i className="fa-brands fa-facebook-f"></i>
+                                            </a>
+                                            <a 
+                                                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(getShareUrl())}`} 
+                                                target="_blank" 
+                                                rel="noreferrer" 
+                                                className="btn-social linkedin"
+                                                title="Share on LinkedIn"
+                                            >
+                                                <i className="fa-brands fa-linkedin-in"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
                                     <div className="share-actions">
                                         <button className="btn-regenerate-link" onClick={handleRegenerateLink}>
                                             <i className="fa-solid fa-arrows-rotate"></i> Regenerate Link (Old link will stop working)
