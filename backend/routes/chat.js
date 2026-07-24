@@ -1,6 +1,8 @@
 import express from "express";
 import Thread from "../models/Thread.js";
-import getGroqAPIResponse from "../utils/groq.js";
+import User from "../models/User.js";
+import Memory from "../models/Memory.js";
+import getGroqAPIResponse, { extractMemoryActions } from "../utils/groq.js";
 import authMiddleware from "../middleware/auth.js";
 import multer from "multer";
 import path from "path";
@@ -262,13 +264,38 @@ router.put("/thread/:threadId/edit", async (req, res) => {
             attachments
         });
 
+        // Handle Memory System on Edit
+        let memoryEvents = [];
+        let finalSystemPrompt = systemPrompt;
+
+        if (req.user.id !== "000000000000000000000000") {
+            const userProfile = await User.findById(req.user.id);
+            if (userProfile && userProfile.memoryEnabled) {
+                memoryEvents = await extractMemoryActions(newContent, req.user.id);
+                const memories = await Memory.find({ userId: req.user.id });
+                if (memories.length > 0) {
+                    const memoryText = memories.map(m => `* ${m.title}: ${m.value}`).join("\n");
+                    const memoryInstructions = `\n\nYou know the following about the user:\n${memoryText}\n\nUse these memories naturally when they improve your responses. Do not mention memories unless they are relevant.`;
+                    
+                    const presets = {
+                        default: "You are IntelliChat, a helpful, friendly, and intelligent AI assistant. Use markdown formatting for code snippets and rich text where appropriate.",
+                        code: "You are a strict code specialist. Output clean, optimal code snippets only with minimal explanations.",
+                        explain5: "You are an educator. Explain concepts using extremely simple analogies, as if explaining to a 5-year-old child.",
+                        sarcastic: "You are a witty, funny, and highly sarcastic buddy. Keep responses engaging and slightly sarcastic."
+                    };
+                    const resolvedPrompt = presets[systemPrompt] || systemPrompt || presets.default;
+                    finalSystemPrompt = resolvedPrompt + memoryInstructions;
+                }
+            }
+        }
+
         // 3. Generate new assistant response
-        const assistantReply = await getGroqAPIResponse(thread.messages, systemPrompt, temperature);
+        const assistantReply = await getGroqAPIResponse(thread.messages, finalSystemPrompt, temperature);
         thread.messages.push({ role: "assistant", content: assistantReply });
         thread.updatedAt = new Date();
 
         await thread.save();
-        res.json({ reply: assistantReply, messages: thread.messages });
+        res.json({ reply: assistantReply, messages: thread.messages, memoryEvents });
     } catch (err) {
         console.error("Edit message error:", err);
         res.status(500).json({ error: "Failed to edit prompt and regenerate" });
@@ -360,14 +387,42 @@ router.post("/chat", async (req, res) => {
             thread.messages.push({ role: "user", content: message, attachments: attachments || [] });
         }
 
+        // Handle Memory System
+        let memoryEvents = [];
+        let finalSystemPrompt = systemPrompt;
+
+        if (req.user.id !== "000000000000000000000000") {
+            const userProfile = await User.findById(req.user.id);
+            if (userProfile && userProfile.memoryEnabled) {
+                // Analyze prompt for updates/insertions/deletions
+                memoryEvents = await extractMemoryActions(message, req.user.id);
+
+                // Fetch updated memories
+                const memories = await Memory.find({ userId: req.user.id });
+                if (memories.length > 0) {
+                    const memoryText = memories.map(m => `* ${m.title}: ${m.value}`).join("\n");
+                    const memoryInstructions = `\n\nYou know the following about the user:\n${memoryText}\n\nUse these memories naturally when they improve your responses. Do not mention memories unless they are relevant.`;
+                    
+                    const presets = {
+                        default: "You are IntelliChat, a helpful, friendly, and intelligent AI assistant. Use markdown formatting for code snippets and rich text where appropriate.",
+                        code: "You are a strict code specialist. Output clean, optimal code snippets only with minimal explanations.",
+                        explain5: "You are an educator. Explain concepts using extremely simple analogies, as if explaining to a 5-year-old child.",
+                        sarcastic: "You are a witty, funny, and highly sarcastic buddy. Keep responses engaging and slightly sarcastic."
+                    };
+                    const resolvedPrompt = presets[systemPrompt] || systemPrompt || presets.default;
+                    finalSystemPrompt = resolvedPrompt + memoryInstructions;
+                }
+            }
+        }
+
         // Pass the updated messages history to the Groq API helper
-        const assistantReply = await getGroqAPIResponse(thread.messages, systemPrompt, temperature);
+        const assistantReply = await getGroqAPIResponse(thread.messages, finalSystemPrompt, temperature);
 
         thread.messages.push({ role: "assistant", content: assistantReply });
         thread.updatedAt = new Date();
 
         await thread.save();
-        res.json({ reply: assistantReply, messages: thread.messages });
+        res.json({ reply: assistantReply, messages: thread.messages, memoryEvents });
     } catch (err) {
         console.error("Chat error:", err);
         res.status(500).json({ error: "something went wrong" });
