@@ -1,7 +1,6 @@
 import "./ChatWindow.css";
 import Chat from "./Chat.jsx";
 import SettingsModal from "./SettingsModal.jsx";
-import UpgradeModal from "./UpgradeModal.jsx";
 import { MyContext } from "./MyContext.jsx";
 import React, { useContext, useState, useRef } from "react";
 import ShareModal from "./ShareModal.jsx";
@@ -25,7 +24,6 @@ function ChatWindow() {
 
     const [isOpen, setIsOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-    const [isUpgradeOpen, setIsUpgradeOpen] = useState(false);
     const [isShareOpen, setIsShareOpen] = useState(false);
     const [isListening, setIsListening] = useState(false);
 
@@ -290,9 +288,6 @@ function ChatWindow() {
                             <div className="dropDownItem" onClick={() => { setIsSettingsOpen(true); setIsOpen(false); }}>
                                 <i className="fa-solid fa-gear"></i> Settings
                             </div>
-                            <div className="dropDownItem" onClick={() => { setIsUpgradeOpen(true); setIsOpen(false); }}>
-                                <i className="fa-solid fa-cloud-arrow-up"></i> Upgrade plan
-                            </div>
                             <div className="dropDownItem" onClick={handleLogout}>
                                 <i className="fa-solid fa-arrow-right-from-bracket"></i> Log out
                             </div>
@@ -304,9 +299,6 @@ function ChatWindow() {
                             </div>
                             <div className="dropDownItem" onClick={() => { setIsSettingsOpen(true); setIsOpen(false); }}>
                                 <i className="fa-solid fa-gear"></i> Settings
-                            </div>
-                            <div className="dropDownItem" onClick={() => { setIsUpgradeOpen(true); setIsOpen(false); }}>
-                                <i className="fa-solid fa-cloud-arrow-up"></i> Upgrade plan
                             </div>
                         </>
                     )}
@@ -383,9 +375,6 @@ function ChatWindow() {
 
             {isSettingsOpen && (
                 <SettingsModal onClose={() => setIsSettingsOpen(false)} user={user} />
-            )}
-            {isUpgradeOpen && (
-                <UpgradeModal onClose={() => setIsUpgradeOpen(false)} />
             )}
             {isShareOpen && (
                 <ShareModal onClose={() => setIsShareOpen(false)} threadId={currThreadId} token={token} />
