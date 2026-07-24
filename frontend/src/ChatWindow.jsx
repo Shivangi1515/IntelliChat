@@ -13,6 +13,7 @@ function ChatWindow() {
         prompt, setPrompt,
         setReply,
         currThreadId,
+        prevChats,
         setPrevChats,
         setNewChat,
         setAllThreads,
