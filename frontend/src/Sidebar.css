@@ -15,7 +15,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .brand {
@@ -56,7 +56,7 @@
   font-size: 0.9rem;
   font-weight: 500;
   transition: all var(--transition-normal);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .btn-new-chat:hover {
@@ -75,6 +75,57 @@
   color: var(--text-primary);
 }
 
+/* Search Bar Styles */
+.search-bar-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.65rem 1rem 0.65rem 2.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.search-input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 8px var(--accent-glow);
+  background: var(--bg-main);
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.clear-search-icon {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.clear-search-icon:hover {
+  color: var(--text-primary);
+}
+
+/* History Container Styles */
 .history-container {
   flex: 1;
   overflow-y: auto;
@@ -82,13 +133,22 @@
 }
 
 .history-title {
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   color: var(--text-muted);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.6rem;
   padding-left: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.history-empty-msg, .search-info-msg {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 0.5rem;
+  text-align: center;
 }
 
 .history {
@@ -130,22 +190,75 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  padding-right: 1.5rem;
 }
 
-.btn-delete {
-  opacity: 0;
+/* Search results item layout */
+.search-result-item {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0.25rem;
+}
+
+.search-hit-title {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.search-snippet {
+  font-size: 0.75rem;
   color: var(--text-muted);
-  transition: all var(--transition-fast);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.highlight {
+  background-color: rgba(99, 102, 241, 0.35);
+  color: #fff;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+/* Action Icons inside History Row */
+.thread-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   position: absolute;
-  right: 0.75rem;
-  padding: 0.25rem;
+  right: 0.5rem;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  padding-left: 0.5rem;
   border-radius: var(--radius-sm);
 }
 
-.history li:hover .btn-delete,
-.history li.highlighted .btn-delete {
+.history li:hover .thread-actions,
+.history li.highlighted .thread-actions {
   opacity: 1;
+  background: var(--bg-card-hover);
+}
+
+.history li.highlighted .thread-actions {
+  background: var(--bg-active);
+}
+
+.btn-action-icon, .btn-delete {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.btn-action-icon:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.btn-action-icon.pinned {
+  color: #f59e0b;
 }
 
 .btn-delete:hover {
@@ -153,6 +266,37 @@
   background: rgba(239, 68, 68, 0.1);
 }
 
+/* Archived Accordion Section */
+.archived-threads-section {
+  margin-top: 1.25rem;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+}
+
+.archived-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast);
+}
+
+.archived-section-header:hover {
+  color: var(--text-primary);
+}
+
+.archived-list {
+  margin-top: 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Footer Section */
 .sidebar-footer {
   padding-top: 1rem;
   border-top: 1px solid var(--border-color);
