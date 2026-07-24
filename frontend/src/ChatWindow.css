@@ -18,6 +18,30 @@
   background: var(--bg-navbar);
   backdrop-filter: blur(12px);
   height: 64px;
+  gap: 0.75rem;
+}
+
+/* Button shown in navbar to re-expand the sidebar */
+.btn-sidebar-expand {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+  font-size: 0.85rem;
+}
+
+.btn-sidebar-expand:hover {
+  color: var(--text-primary);
+  background: var(--bg-card-hover);
+  border-color: var(--accent-primary);
 }
 
 .navbar-title {
