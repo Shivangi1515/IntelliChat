@@ -17,6 +17,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: "User"
     },
+    memoryEnabled: {
+        type: Boolean,
+        default: true
+    },
     createdAt: {
         type: Date,
         default: Date.now
