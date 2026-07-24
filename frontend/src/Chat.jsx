@@ -21,11 +21,12 @@ function Chat() {
         setIsStreaming,
         highlightedMessageIndex,
         setHighlightedMessageIndex,
-        currThreadId
+        currThreadId,
+        toastMessage,
+        setToastMessage
     } = useContext(MyContext);
 
     const [latestReply, setLatestReply] = useState(null);
-    const [toastMessage, setToastMessage] = useState("");
     
     // Edit prompt states
     const [editingIndex, setEditingIndex] = useState(null);
@@ -139,6 +140,12 @@ function Chat() {
             if (response.ok) {
                 setPrevChats(res.messages);
                 setReply(res.reply);
+
+                if (res.memoryEvents && res.memoryEvents.length > 0) {
+                    const messages = res.memoryEvents.map(e => e.reason).join(" ");
+                    setToastMessage(messages);
+                    setTimeout(() => setToastMessage(""), 4000);
+                }
             }
         } catch (err) {
             console.error("Edit request failed:", err);
