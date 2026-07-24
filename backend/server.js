@@ -13,22 +13,21 @@ app.use(cors());
 
 app.use("/api",chatRoutes);
 
+const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGODB_URI);
+        console.log("MongoDB connection established successfully");
+    } catch (err) {
+        console.error("Failed to connect to database:", err);
+        process.exit(1);
+    }
+};
+
 app.listen(PORT, () => {
-    console.log(`server is running on ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
     connectDB();
 });
 
-const connectDB= async() =>{
-    try{
-        await mongoose.connect(process.env.MONGODB_URI);
-
-        console.log("connected with DB");
-
-    }catch(err){
-        console.log("Failed to connect to db",err);
-
-    }
-}
 
 
 
