@@ -35,6 +35,17 @@ router.get("/thread/:threadId",async(req,res)=>{
     }
 });
 
+//Delete All Threads
+router.delete("/thread", async (req, res) => {
+    try {
+        await Thread.deleteMany({ userId: req.user.id });
+        res.status(200).json({ success: "All threads successfully deleted" });
+    } catch (err) {
+        console.error("Bulk delete error:", err);
+        res.status(500).json({ error: "Failed to delete all threads" });
+    }
+});
+
 //Delete Thread
 router.delete("/thread/:threadId",async(req,res)=>{
     try{
