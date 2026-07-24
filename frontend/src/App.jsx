@@ -61,6 +61,12 @@ function App() {
     fetchProfile();
   }, [token]);
 
+  const [systemPrompt, setSystemPrompt] = useState(() => localStorage.getItem("intellichat_system_prompt") || "default");
+  const [temperature, setTemperature] = useState(() => {
+    const saved = localStorage.getItem("intellichat_temperature");
+    return saved ? parseFloat(saved) : 0.7;
+  });
+
   const providerValues = {
     token, setToken,
     user, setUser,
@@ -70,7 +76,9 @@ function App() {
     newChat, setNewChat,
     prevChats, setPrevChats,
     allThreads, setAllThreads,
-    loading, setLoading
+    loading, setLoading,
+    systemPrompt, setSystemPrompt,
+    temperature, setTemperature
   }; 
 
   return (
