@@ -124,7 +124,7 @@ cp .env.example .env
 Populate the variables:
 ```env
 PORT=8000
-MONGO_URI=mongodb://localhost:27017/intellichat
+MONGO_URI=mongodb://localhost:27017/your_database
 JWT_SECRET=your_jwt_secret_key
 GROQ_API_KEY=your_groq_api_key
 GOOGLE_CLIENT_ID=your_google_client_id
@@ -159,7 +159,7 @@ npm run dev
 | Variable | Description | Default Value | Required |
 | :--- | :--- | :--- | :--- |
 | `PORT` | Port the Express server listens on. | `8000` | Yes |
-| `MONGO_URI` | Connection URI for the MongoDB instance. | `mongodb://localhost:27017/intellichat` | Yes |
+| `MONGO_URI` | Connection URI for the MongoDB instance. | `<your_mongodb_connection_uri>` | Yes |
 | `JWT_SECRET` | Secret token used to sign and verify JWT keys. | `<your_jwt_secret_here>` | Yes |
 | `GROQ_API_KEY` | Developer API Key from Groq console. | *None* | Yes |
 | `GOOGLE_CLIENT_ID` | OAuth Client ID for Google login. | *None* | Optional |
