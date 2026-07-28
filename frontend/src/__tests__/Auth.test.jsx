@@ -1,3 +1,4 @@
+import { jest, describe, test, expect, beforeEach, afterEach } from "@jest/globals";
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Auth from "../Auth.jsx";
@@ -32,7 +33,7 @@ describe("Auth Component", () => {
         });
 
         // Mock global fetch
-        global.fetch = jest.fn();
+        globalThis.fetch = jest.fn();
         
         // Mock console.error to avoid test output noise
         jest.spyOn(console, "error").mockImplementation(() => {});
@@ -81,7 +82,7 @@ describe("Auth Component", () => {
     });
 
     test("should perform successful login", async () => {
-        global.fetch.mockResolvedValueOnce({
+        globalThis.fetch.mockResolvedValueOnce({
             ok: true,
             json: async () => ({ token: "mock_jwt_token" })
         });
@@ -95,14 +96,14 @@ describe("Auth Component", () => {
         fireEvent.click(submitBtn);
 
         await waitFor(() => {
-            expect(global.fetch).toHaveBeenCalledWith("http://localhost:8000/api/auth/login", expect.any(Object));
+            expect(globalThis.fetch).toHaveBeenCalledWith("http://localhost:8000/api/auth/login", expect.any(Object));
             expect(localStorage.setItem).toHaveBeenCalledWith("intellichat_token", "mock_jwt_token");
             expect(reloadPage).toHaveBeenCalled();
         });
     });
 
     test("should display error message on login failure", async () => {
-        global.fetch.mockResolvedValueOnce({
+        globalThis.fetch.mockResolvedValueOnce({
             ok: false,
             json: async () => ({ error: "Invalid credentials" })
         });
@@ -121,7 +122,7 @@ describe("Auth Component", () => {
     });
 
     test("should display connection failed error on fetch throw", async () => {
-        global.fetch.mockRejectedValueOnce(new Error("Network Error"));
+        globalThis.fetch.mockRejectedValueOnce(new Error("Network Error"));
 
         renderWithContext();
 
