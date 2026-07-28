@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import Memory from "../models/Memory.js";
+import { normalizeMemoryKey } from "./helpers.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -80,7 +81,7 @@ User message: "${userMessage}"`;
         if (Array.isArray(actions)) {
             for (const act of actions) {
                 if (act.action === "create") {
-                    const key = act.key.toLowerCase().trim().replace(/[^a-z0-9]/g, "_");
+                    const key = normalizeMemoryKey(act.key);
                     const memory = await Memory.findOneAndUpdate(
                         { userId, key },
                         { title: act.title, value: act.value, category: act.category || "General" },
