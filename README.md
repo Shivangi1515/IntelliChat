@@ -160,7 +160,7 @@ npm run dev
 | :--- | :--- | :--- | :--- |
 | `PORT` | Port the Express server listens on. | `8000` | Yes |
 | `MONGO_URI` | Connection URI for the MongoDB instance. | `mongodb://localhost:27017/intellichat` | Yes |
-| `JWT_SECRET` | Secret token used to sign and verify JWT keys. | `intellichat_jwt_secret_key_123` | Yes |
+| `JWT_SECRET` | Secret token used to sign and verify JWT keys. | `<your_jwt_secret_here>` | Yes |
 | `GROQ_API_KEY` | Developer API Key from Groq console. | *None* | Yes |
 | `GOOGLE_CLIENT_ID` | OAuth Client ID for Google login. | *None* | Optional |
 | `GOOGLE_CLIENT_SECRET` | OAuth Client Secret for Google login. | *None* | Optional |
