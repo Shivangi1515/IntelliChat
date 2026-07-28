@@ -2,3 +2,13 @@ uuid
 react-spinners
 react-markdown
 rehype-highlight
+jest
+jest-environment-jsdom
+@testing-library/react
+@testing-library/jest-dom
+@testing-library/user-event
+babel-jest
+@babel/core
+@babel/preset-env
+@babel/preset-react
+identity-obj-proxy

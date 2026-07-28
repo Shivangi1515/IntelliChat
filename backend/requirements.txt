@@ -9,4 +9,7 @@ bcryptjs
 passport
 passport-google-oauth20
 multer
+jest
+supertest
+cross-env
 

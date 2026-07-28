@@ -26,4 +26,7 @@ desktop.ini
 
 # Uploaded assets
 backend/uploads/
+coverage/
+backend/coverage/
+.vscode/
 

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import "./Auth.css";
 import { MyContext } from "./MyContext.jsx";
+import { reloadPage, redirectPage } from "./utils/navigation.js";
 
 function Auth() {
     const { setPrevChats, setCurrThreadId, setNewChat, setReply } = useContext(MyContext);
@@ -33,7 +34,7 @@ function Auth() {
 
             // Save token and reload page / trigger state change
             localStorage.setItem("intellichat_token", res.token);
-            window.location.reload();
+            reloadPage();
         } catch (err) {
             console.error("Auth error:", err);
             setError("Connection failed. Is the server running?");
@@ -41,7 +42,7 @@ function Auth() {
     };
 
     const handleGoogleLogin = () => {
-        window.location.href = "http://localhost:8000/api/auth/google";
+        redirectPage("http://localhost:8000/api/auth/google");
     };
 
     return (
