@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  IntelliChat is a high-performance ChatGPT clone featuring real-time streaming responses, persistent markdown rendering, secure JWT and Google OAuth authentication, and memory management capabilities.
+  IntelliChat is an interactive chat platform that delivers real-time streaming AI responses, persistent markdown rendering with syntax-highlighted code blocks, context memory normalization, secure custom authentication pipelines, and conversational history tracking.
 </p>
 
 <p align="center">
@@ -33,7 +33,6 @@
 - [About the Project](#-about-the-project)
 - [Key Features](#-key-features)
 - [Architecture](#-architecture)
-- [Screenshots](#-screenshots)
 - [Folder Structure](#-folder-structure)
 - [Installation & Setup](#-installation--setup)
 - [Environment Variables](#-environment-variables)
@@ -42,16 +41,12 @@
 - [Deployment](#-deployment)
 - [Testing](#-testing)
 - [Performance & Security](#-performance--security)
-- [Future Roadmap](#-future-roadmap)
-- [License](#-license)
 
 ---
 
 ## 🔍 About the Project
 
-IntelliChat is designed to deliver a modern, fast, and feature-rich chat interface that matches the responsive experience of ChatGPT. Unlike traditional poll-based chat solutions, IntelliChat utilizes server-sent streaming to render AI responses token-by-token as they are processed by the Groq API. 
-
-Built with scalability and user customizability in mind, the platform contains a robust context memory system, Google OAuth integrations, customizable settings (e.g. temperature, models, system instructions), and comprehensive test coverages.
+IntelliChat is an advanced conversational interface constructed with React and Node.js. It features a complete environment with full-stack capabilities, resolving the lag of standard HTTP API polling by leveraging Server-Sent Events (SSE). This allows prompt-to-response generation to stream token-by-token instantly. The project includes modular contexts for customizable LLM temperature adjustments, configurable system prompts, user profile identity providers (including Google OAuth), and automatic chat thread pinning/renaming.
 
 ---
 
@@ -80,23 +75,6 @@ graph TD
     BE <-->|Data Persistence| DB[(MongoDB)]
     BE <-->|Llama-3.2-Vision / Groq API| AI[Groq Inference Engine]
 ```
-
----
-
-## 📸 Screenshots
-
-<details>
-  <summary>Click to view system view previews</summary>
-
-  ### Home View
-  ![Home View Placeholder](https://placehold.co/800x450/20232A/61DAFB?text=IntelliChat+Home+View)
-
-  ### Chat Interface
-  ![Chat View Placeholder](https://placehold.co/800x450/20232A/61DAFB?text=AI+Streaming+Chat+Interface)
-
-  ### Settings Panel
-  ![Settings View Placeholder](https://placehold.co/800x450/20232A/61DAFB?text=Temperature+and+Model+Configuration)
-</details>
 
 ---
 
@@ -237,16 +215,3 @@ npm run test
 ### Security
 - **JWT Cryptography**: Secure JSON Web Token auth blocks unauthorized API transactions.
 - **Environment Isolation**: Critical variables (Groq keys, database URIs) are kept securely hidden in backend scope.
-
----
-
-## 🛣️ Future Roadmap
-- [ ] Add PDF and document upload parsing support.
-- [ ] Implement group-based sharing link parameters.
-- [ ] Add multiple LLM comparisons in a single screen.
-
----
-
-## 📄 License
-
-Distributed under the MIT License. See `LICENSE` for more details.
