@@ -5,11 +5,11 @@
 <h1 align="center">IntelliChat</h1>
 
 <p align="center">
-  <strong>A Premium, Full-Stack AI Conversational Assistant Powered by Groq LLMs</strong>
+  <strong>Full-Stack AI Conversational Assistant Powered by Groq LLMs</strong>
 </p>
 
 <p align="center">
-  IntelliChat is an interactive chat platform that delivers real-time streaming AI responses, persistent markdown rendering with syntax-highlighted code blocks, context memory normalization, secure custom authentication pipelines, and conversational history tracking.
+  IntelliChat is a full-stack conversational application built with React, Node.js, and MongoDB, featuring real-time streaming AI responses, user authentication, and context memory normalization.
 </p>
 
 <p align="center">
