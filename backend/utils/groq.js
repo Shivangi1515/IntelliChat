@@ -169,7 +169,7 @@ const getGroqAPIResponse = async (messages, systemPrompt, temperature) => {
     const tempVal = typeof temperature === "number" ? temperature : 0.7;
 
     // Use Groq's active vision model if image attachments are present, otherwise Llama 3.3 70B
-    const model = hasImages ? "qwen/qwen3.6-27b" : "llama-3.3-70b-versatile";
+    const model = hasImages ? "llama-3.2-11b-vision-preview" : "llama-3.3-70b-versatile";
 
     const options = {
         method: "POST",
